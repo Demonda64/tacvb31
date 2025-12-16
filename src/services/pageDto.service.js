@@ -54,13 +54,14 @@ export async function getPageDtoBySlug(slug) {
     if (!pRows.length) return null;
     const page = pRows[0];
 
-    const [cRows] = await conn.execute(
-      `SELECT HEX(id) AS id, HEX(page_id) AS page_id, type, position
-       FROM club_core.ui_containers
-       WHERE page_id = UNHEX(?) AND deleted_at IS NULL
-       ORDER BY position ASC`,
-      [page.id]
-    );
+const [cRows] = await conn.execute(
+  `SELECT HEX(id) AS id, HEX(page_id) AS page_id, type, position, data
+   FROM club_core.ui_containers
+   WHERE page_id = UNHEX(?) AND deleted_at IS NULL
+   ORDER BY position ASC`,
+  [page.id]
+);
+
 
     const containerIds = cRows.map((r) => r.id);
     let cardsByContainer = {};
@@ -87,12 +88,14 @@ export async function getPageDtoBySlug(slug) {
       }, {});
     }
 
-    const containers = cRows.map((c) => ({
-      id: c.id,
-      type: c.type,
-      position: c.position,
-      cards: cardsByContainer[c.id] || [],
-    }));
+const containers = cRows.map(c => ({
+  id: c.id,
+  type: c.type,
+  position: c.position,
+  data: normalizeJson(c.data),   // ✅ important
+  cards: cardsByContainer[c.id] || []
+}));
+
 
     const [navRows] = await conn.execute(
       `SELECT

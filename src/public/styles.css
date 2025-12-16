@@ -1,0 +1,60 @@
+/* src/styles.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: #222;
+  color: white;
+  padding: 10px 20px;
+}
+
+header a, footer a {
+  color: white;
+  text-decoration: none;
+}
+
+footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 5px;
+}
+
+main {
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+
+/* ===== CONTAINERS ===== */
+
+.container--grid {
+  display: grid;
+  gap: var(--grid-gap, 16px);
+}
+
+@media (min-width: 1024px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-desktop, 3), 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-tablet, 2), 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-mobile, 1), 1fr);
+  }
+}

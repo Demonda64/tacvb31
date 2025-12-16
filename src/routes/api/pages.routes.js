@@ -12,3 +12,4 @@ const router = Router();
 router.get("/pages/:slug", getPageBySlug);
 
 export default router;
+
