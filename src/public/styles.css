@@ -58,3 +58,24 @@ h1, h2 {
     grid-template-columns: repeat(var(--grid-cols-mobile, 1), 1fr);
   }
 }
+
+.container--grid {
+  display: grid;
+  gap: var(--grid-gap, 16px);
+}
+
+@media (min-width: 1024px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-desktop, 3), 1fr);
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-tablet, 2), 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .container--grid {
+    grid-template-columns: repeat(var(--grid-cols-mobile, 1), 1fr);
+  }
+}

@@ -143,8 +143,9 @@ function renderGrid(container) {
   div.className = "container container--grid";
 
   const layout = container.data?.layout || {};
-
   const cols = layout.columns || {};
+
+  
   div.style.setProperty("--grid-cols-desktop", cols.desktop ?? 3);
   div.style.setProperty("--grid-cols-tablet", cols.tablet ?? 2);
   div.style.setProperty("--grid-cols-mobile", cols.mobile ?? 1);
@@ -156,6 +157,7 @@ function renderGrid(container) {
 
   return div;
 }
+
 
 
 function renderTabs(container) {

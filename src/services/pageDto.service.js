@@ -63,6 +63,7 @@ const [cRows] = await conn.execute(
 );
 
 
+
     const containerIds = cRows.map((r) => r.id);
     let cardsByContainer = {};
 
@@ -88,13 +89,14 @@ const [cRows] = await conn.execute(
       }, {});
     }
 
-const containers = cRows.map(c => ({
+const containers = cRows.map((c) => ({
   id: c.id,
   type: c.type,
   position: c.position,
-  data: normalizeJson(c.data),   // ✅ important
+  data: normalizeJson(c.data),
   cards: cardsByContainer[c.id] || []
 }));
+
 
 
     const [navRows] = await conn.execute(
