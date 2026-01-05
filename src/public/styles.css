@@ -79,3 +79,29 @@ h1, h2 {
     grid-template-columns: repeat(var(--grid-cols-mobile, 1), 1fr);
   }
 }
+
+
+.card--richtext {
+  line-height: 1.6;
+}
+
+.card--richtext h2 {
+  margin-top: 1.2em;
+}
+
+.card--variant-muted {
+  color: #666;
+  font-size: 0.95em;
+}
+
+.card--variant-lead {
+  font-size: 1.15em;
+  font-weight: 500;
+}
+
+
+/* ===== CARD ===== */
+.card--richtext { line-height: 1.6; }
+.card--richtext ul, .card--richtext ol { padding-left: 1.2rem; }
+.variant-muted { color: #666; }
+.variant-lead { font-size: 1.1rem; font-weight: 500; }

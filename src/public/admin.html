@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TACVB31 — Admin GRID</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header id="header">
+    <div style="padding:12px 16px; background:#222; color:#fff;">
+      <strong>Admin</strong> — Layout GRID
+      <span style="opacity:.7; margin-left:8px;">(MVP local)</span>
+    </div>
+  </header>
+
+  <main id="content" style="padding:16px;">
+    <h1>Modifier un container GRID</h1>
+
+    <section class="card" style="border:1px solid #ddd; padding:16px; border-radius:8px; max-width:520px;">
+      <label style="display:block; margin-bottom:10px;">
+        <div style="font-weight:600; margin-bottom:6px;">Container ID (HEX)</div>
+        <input id="containerId" type="text" placeholder="ex: 6EC9FDA0DA5711F0A58F00155DFFEAF1" style="width:100%; padding:10px;">
+      </label>
+
+      <label style="display:block; margin-bottom:10px;">
+        <div style="font-weight:600; margin-bottom:6px;">Colonnes desktop (1–6)</div>
+        <input id="colDesktop" type="number" min="1" max="6" value="3" style="width:100%; padding:10px;">
+      </label>
+
+      <label style="display:block; margin-bottom:10px;">
+        <div style="font-weight:600; margin-bottom:6px;">Colonnes tablet (1–6)</div>
+        <input id="colTablet" type="number" min="1" max="6" value="2" style="width:100%; padding:10px;">
+      </label>
+
+      <label style="display:block; margin-bottom:10px;">
+        <div style="font-weight:600; margin-bottom:6px;">Colonnes mobile (1–6)</div>
+        <input id="colMobile" type="number" min="1" max="6" value="1" style="width:100%; padding:10px;">
+      </label>
+
+      <label style="display:block; margin-bottom:14px;">
+        <div style="font-weight:600; margin-bottom:6px;">Gap CSS (ex: 16px, 24px, 2rem)</div>
+        <input id="gap" type="text" value="16px" style="width:100%; padding:10px;">
+      </label>
+
+      <button id="btnSave" style="padding:10px 14px; cursor:pointer;">Enregistrer</button>
+
+      <pre id="result" style="margin-top:14px; background:#111; color:#0f0; padding:12px; border-radius:8px; overflow:auto; max-height:240px;"></pre>
+    </section>
+  </main>
+
+  <footer id="footer" style="padding:12px 16px; background:#222; color:#fff; margin-top:24px;">
+    TACVB31 — Admin CMS MVP
+  </footer>
+
+  <script type="module" src="/admin.js"></script>
+</body>
+</html>

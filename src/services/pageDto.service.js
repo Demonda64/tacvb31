@@ -6,6 +6,7 @@
  * Layer     : SERVICE
  */
 import { pool } from "../config/db.js";
+import { sanitizeRichText } from "../utils/sanitizeRichText.js";
 
 function buildTree(items) {
   const byId = new Map();
@@ -63,39 +64,56 @@ const [cRows] = await conn.execute(
 );
 
 
-
     const containerIds = cRows.map((r) => r.id);
-    let cardsByContainer = {};
+let cardsByContainer = {};
 
-    if (containerIds.length) {
-      const placeholders = containerIds.map(() => "UNHEX(?)").join(",");
-      const [cardRows] = await conn.execute(
-        `SELECT HEX(id) AS id, HEX(container_id) AS container_id, type, position, data
-         FROM club_core.ui_cards
-         WHERE container_id IN (${placeholders})
-           AND deleted_at IS NULL
-         ORDER BY container_id ASC, position ASC`,
-        containerIds
-      );
+if (containerIds.length) {
+  const placeholders = containerIds.map(() => "UNHEX(?)").join(",");
+  const [cardRows] = await conn.execute(
+    `SELECT HEX(id) AS id, HEX(container_id) AS container_id, type, position, data
+     FROM club_core.ui_cards
+     WHERE container_id IN (${placeholders})
+       AND deleted_at IS NULL
+     ORDER BY container_id ASC, position ASC`,
+    containerIds
+  );
 
-      cardsByContainer = cardRows.reduce((acc, r) => {
-        (acc[r.container_id] ||= []).push({
-          id: r.id,
-          type: r.type,
-          position: r.position,
-          data: normalizeJson(r.data),
-        });
-        return acc;
-      }, {});
-    }
+  cardsByContainer = cardRows.reduce((acc, r) => {
+    const rawData = normalizeJson(r.data);
 
+    // 🔐 Sécurisation RICHTEXT côté backend
+    const safeData =
+      r.type === "RICHTEXT" && rawData?.props?.html
+        ? {
+            ...rawData,
+            props: {
+              ...rawData.props,
+              html: sanitizeRichText(rawData.props.html),
+            },
+          }
+        : rawData;
+
+    (acc[r.container_id] ||= []).push({
+      id: r.id,
+      type: r.type,
+      position: r.position,
+      data: safeData,
+    });
+
+    return acc;
+  }, {});
+}
+
+// ✅ containers DOIT être après le if (sinon bug)
 const containers = cRows.map((c) => ({
   id: c.id,
   type: c.type,
   position: c.position,
   data: normalizeJson(c.data),
-  cards: cardsByContainer[c.id] || []
+  cards: cardsByContainer[c.id] || [],
 }));
+
+    
 
 
 

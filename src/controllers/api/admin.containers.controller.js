@@ -1,31 +1,37 @@
 /**
  * Project   : TACVB31
- * Module    : CMS Admin
- * Author    : Freezer64
- * Created   : 2025-12-16
- * Layer     : CONTROLLERS/API/ADMIN
+ * Module    : CMS
+ * Layer     : CONTROLLER (ADMIN)
+ * Purpose   : Update GRID container layout
  */
+
 import { pool } from "../../config/db.js";
 
 export async function updateGridLayout(req, res, next) {
   try {
-    const { id } = req.params; // HEX
+    const { id } = req.params; // HEX ID du container
     const { columns, gap } = req.body || {};
 
     const desktop = Number(columns?.desktop ?? 3);
     const tablet  = Number(columns?.tablet ?? 2);
     const mobile  = Number(columns?.mobile ?? 1);
 
+    // validation stricte
     if (![desktop, tablet, mobile].every(n => Number.isInteger(n) && n >= 1 && n <= 6)) {
       return res.status(400).json({ error: "INVALID_COLUMNS_RANGE" });
     }
+
     if (typeof gap !== "string" || gap.length < 2 || gap.length > 20) {
       return res.status(400).json({ error: "INVALID_GAP" });
     }
 
+    // 👉 ICI LE POINT QUE TU DEMANDAIS
     const data = {
       v: 1,
-      layout: { columns: { desktop, tablet, mobile }, gap }
+      layout: {
+        columns: { desktop, tablet, mobile },
+        gap
+      }
     };
 
     const conn = await pool.getConnection();
@@ -44,8 +50,8 @@ export async function updateGridLayout(req, res, next) {
       conn.release();
     }
 
-    return res.json({ ok: true, id, data });
+    res.json({ ok: true, id, data });
   } catch (e) {
-    return next(e);
+    next(e);
   }
 }
